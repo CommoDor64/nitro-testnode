@@ -164,14 +164,36 @@ function writeConfigs(argv: any) {
             "info-files": [chainInfoFile],
         },
         "node": {
+            "data-availability": {
+                "enable": true,
+                "sequencer-inbox-address": "0x18d19c5d3e685f5be5b9c86e097f0e439285d216",
+                "parent-chain-node-url": "http://nitro-testnode-geth-1:8545",
+                "rpc-aggregator": {
+                    "enable": true,
+                    "assumed-honest": 1,
+                    "backends": [
+                        {
+                            "url": "http://172.17.0.1:8080/rpc/",
+                            // "pubkey": "YA85jIDswhtA7g+TZ1vj3qxHe3jGMYuws6TuNhkKhaXwZ2MOPTMHjyqmlqY9gQ641hfepRtgN/7RyoT5tjSP7T9mG1IxC6jnotilb/+1a33VE52W4jzk49IC3nH7I71OrAvvuC43MRg9fb/5rWVJ3524ltNf990x0p93LMcm8jKcd5PMyVmRk0E7n2CNjC30ahlT+CBVapuhqz7V9rvX3LwfTWIpbgcxHrSgLTYnb/vNvf5PoFxdD9gEtqrsN7tJ8AhTgO4bfoZ33J2bn/7hfvDoYZTrtPMzq9hNhxLeztqYLGDwwKC+LRjn1aiexq2F1wToz+fMtfQT7r+yj7XYEAiXgbG9PXcUKosXH7tvlq0b0jflq3pCvo3tTnn/yhQOKw=="
+                            "pubkey": "MIGCMB0GDSsGAQQBgtx8BQMBAgEGDCsGAQQBgtx8BQMCAQNhAJcsz6sQicY/V7hUM/7Up43ok3c+aPAu2BSOJUVVZF4qqj6bUdndAb8PBSTxx5wNXBL0S2fK5vBJFc/9pKncc3fr0TfTKUvb0fcZ/NeztDR32/hgNdfty7ezZR8aCt6/OA==",
+                        }
+                    ]
+                },
+                "rest-aggregator": {
+                    "enable": true,
+                    "urls": [
+                        "http://172.17.0.1:8080",
+                    ],
+                }
+            },
             "staker": {
                 "dangerous": {
                     "without-block-validator": false
                 },
-                "parent-chain-wallet" : {
+                "parent-chain-wallet": {
                     "account": namedAddress("validator"),
                     "password": consts.l1passphrase,
-                    "pathname": consts.l1keystore,    
+                    "pathname": consts.l1keystore,
                 },
                 "disable-challenge": false,
                 "enable": false,
@@ -198,14 +220,15 @@ function writeConfigs(argv: any) {
                 "update-interval": "3s",
             },
             "batch-poster": {
-                "enable": false,
+                "enable": true,
+                "disable-dap-fallback-store-data-on-chain": true,
                 "redis-url": argv.redisUrl,
                 "max-delay": "30s",
                 "l1-block-bound": "ignore",
-                "parent-chain-wallet" : {
+                "parent-chain-wallet": {
                     "account": namedAddress("sequencer"),
                     "password": consts.l1passphrase,
-                    "pathname": consts.l1keystore,    
+                    "pathname": consts.l1keystore,
                 },
                 "data-poster": {
                     "redis-signer": {
@@ -343,7 +366,7 @@ function writeL2ChainConfig(argv: any) {
         "arbitrum": {
             "EnableArbOS": true,
             "AllowDebugPrecompiles": true,
-            "DataAvailabilityCommittee": false,
+            "DataAvailabilityCommittee": true,
             "InitialArbOSVersion": 30,
             "InitialChainOwner": argv.l2owner,
             "GenesisBlockNum": 0
@@ -391,11 +414,11 @@ export const writeConfigCommand = {
     describe: "writes config files",
     builder: {
         simple: {
-          boolean: true,
-          describe: "simple config (sequencer is also poster, validator)",
-          default: false,
+            boolean: true,
+            describe: "simple config (sequencer is also poster, validator)",
+            default: false,
         },
-      },    
+    },
     handler: (argv: any) => {
         writeConfigs(argv)
     }
