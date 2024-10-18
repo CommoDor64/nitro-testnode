@@ -174,7 +174,7 @@ function writeConfigs(argv: any) {
                     "backends": [
                         {
                             "url": "http://172.17.0.1:8080/rpc/",
-                            "pubkey": "MIGCMB0GDSsGAQQBgtx8BQMBAgEGDCsGAQQBgtx8BQMCAQNhAJSSUhpE2hRPFD4v6NPlgx3/igi4WW9GbEao6tEWmsfWeBRuNVG4PIdcZRE4RSgBcRlOHiQkvYh3XspKFooGWIr4utPMOO61Pl3Zkd3vzQGF7A0Y6IMwb6cpzbHkDOpCow==" 
+                            "pubkey": "{{PUBKEY}}" 
                         }
                     ]
                 },
